@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSSZ} %p %m%n</Property>
+        <Property name="APP_LOG_ROOT">./log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+        <RollingFile name="fileLog" fileName="${APP_LOG_ROOT}/app.log"
+        filePattern="${APP_LOG_ROOT}/app-%d{yyyy-MM-dd}-%i.log">
+            <LevelRangeFilter minLevel="ERROR" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.example.autheticationhw.service" additivity="false" level="debug">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fileLog"/>
+        </Logger>
+        <Logger name="org.springframework" additivity="false" level="error">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fileLog"/>
+        </Logger>
+        <Logger name="org.hibernate" additivity="false" level="error">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fileLog"/>
+        </Logger>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="fileLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
